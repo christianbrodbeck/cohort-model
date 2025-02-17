@@ -1,0 +1,14 @@
+# Environment for cohort-model module
+# usage: $ mamba env create --file=environment.yml
+name: cohort
+channels:
+- conda-forge
+dependencies:
+- eelbrain
+- attrs
+- pip
+- ipython
+#- conda-forge/label/kenlm_dev::kenlm  # use this on linux only
+- pip:
+  - https://github.com/christianbrodbeck/TRF-Tools/archive/master.zip
+#  - https://github.com/kpu/kenlm/archive/master.zip
