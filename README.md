@@ -1,13 +1,12 @@
 # Installing
 
-Create a `conda` environment with all the dependencies (from the directory in which this `README` file is located), then activate the environment and install the `speech` module:
+Create a `conda` environment with all the dependencies (from the directory in which this `README` file is located), then activate the environment and install the `cohort` module:
 
 ```bash
 $ conda env create --file=environment.yml
-$ conda activate eelbrain
+$ conda activate cohort
 $ pip install .
 ```
-
 
 # Usage
 
@@ -60,22 +59,34 @@ Cohort S P EY S, 13 words, 14 pronunciations
  -0.0]
 ```
 
-Calculate surprisal for all phonemes in a TextGrids (use smoothing to avoid out-of-vocabulary errors):
+Calculate surprisal for all phonemes in a TextGrid:
 
 ```python
 grid = trftools.align.TextGrid.from_file(path_to_textgrid)
 grid = grid.strip_stress()
-surprisal = lexicon.surprisal(grid, smooth=1)
+surprisal = lexicon.surprisal(grid)
 ```
 
-Generate a [pandas](https://pandas.pydata.org/) `DataFrame` with all phonemes:
+Generate an [Eelbrain](https://eelbrain.readthedocs.io/) `Dataset` with all phonemes:
+
+```python
+import eelbrain
+
+data = eelbrain.Dataset({
+    'phone': grid.phones, 
+    'surprisal': lexicon.surprisal(grid),
+    'cohort_entropy': lexicon.entropy(grid),
+})
+```
+
+Or a [pandas](https://pandas.pydata.org/) `DataFrame`:
 
 ```python
 import pandas
 
 data = pandas.DataFrame({
     'phone': grid.phones, 
-    'surprisal': lexicon.surprisal(grid, smooth=1),
+    'surprisal': lexicon.surprisal(grid),
     'cohort_entropy': lexicon.entropy(grid),
 })
 ```
